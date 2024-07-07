@@ -2,6 +2,14 @@ import Image from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
 
+function Hello(samer: string) {
+  console.log(samer);
+}
+
+Hello("Samer");
+
+Hello("Samer");
+
 export default function Home() {
   return (
     <div className={styles.page}>
