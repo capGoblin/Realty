@@ -21,6 +21,9 @@ contract Realty {
 
     // event OwnerContractCreated(address indexed owner, address ownerContract);
     event PropertyListed(address indexed owner, address propertyAddress, uint256 propertyId);
+    event InvestmentMade(address indexed investor, address ownerContract, uint256 propertyId, uint256 amount, uint256 tokensIssued);
+    event CuratorHired(address indexed ownerContractAddress, uint256 propertyId, uint256 amount, address curator);
+    event MilestoneComplete(address indexed ownerContractAddress, uint256 propertyId);
 
     function createOwnerContract() public returns (address) {
         if(ownerToContract[msg.sender] == address(0)) {
@@ -41,6 +44,29 @@ contract Realty {
         emit PropertyListed(msg.sender, ownerAddress, propertyId);
     }
 
+
+    function invest(address ownerContractAddress, uint256 propertyId, uint256 amount) public {
+        require(ownerContractAddress != address(0), "ownerContractAddress should not be 0");
+        require(amount > 0, "Investment amount should be greater than 0");
+        Owner ownerContract = Owner(ownerContractAddress);
+        uint256 tokensIssued = ownerContract.investInProperty(propertyId, amount, msg.sender);
+        emit InvestmentMade(msg.sender, ownerContractAddress, propertyId, amount, tokensIssued);
+    }
+
+    function hireCurator(address ownerContractAddress, uint256 propertyId, address curator, uint256 amount) public {
+        require(ownerContractAddress != address(0), "ownerContractAddress should not be 0");
+        require(amount > 0, "Amount should be greater than 0");
+        Owner ownerContract = Owner(ownerContractAddress);
+        ownerContract.hireCurator(propertyId, curator, amount);
+        emit CuratorHired(ownerContractAddress, propertyId, amount, curator);
+    }
+
+    function completeMilestone(address ownerContractAddress, uint256 propertyId) public {
+        require(ownerContractAddress != address(0), "ownerContractAddress should not be 0");
+        Owner ownerContract = Owner(ownerContractAddress);
+        ownerContract.completeMilestone(propertyId);
+        emit MilestoneComplete(ownerContractAddress, propertyId);
+    }
 
     function getOwnerProperties(address owner) public view returns (Owner.Property[] memory) {
         Owner ownerContract = Owner(ownerToContract[owner]);

@@ -53,10 +53,6 @@ contract Owner {
         return properties.length - 1;
     }
 
-    function hireCurator(uint256 propertyId, address curator) public onlyOwner {
-        properties[propertyId].curators.push(curator);
-    }
-
     function getPropertiesLength() public view returns (uint256) {
         return properties.length;
     }
@@ -65,8 +61,9 @@ contract Owner {
         return properties[index];
     }
 
-    function releaseFundsToCurator(uint256 propertyId, address curator, uint256 amount) public onlyOwner {
+    function hireCurator(uint256 propertyId, address curator, uint256 amount) public onlyOwner {
         require(properties[propertyId].totalFunds >= amount, "Insufficient funds");
+        properties[propertyId].curators.push(curator);
         properties[propertyId].totalFunds -= amount;
         payable(curator).transfer(amount);
     }
@@ -74,6 +71,21 @@ contract Owner {
     function completeMilestone(uint256 propertyId) public onlyOwner {
         require(properties[propertyId].isMilestonesCompleted == false, "Milestone already completed");
         properties[propertyId].isMilestonesCompleted = true;
+    }
+
+    function investInProperty(uint256 propertyId, uint256 amount, address investor) public returns (uint256) {
+        require(propertyId < properties.length, "Invalid property ID");
+        Property storage property = properties[propertyId];
+        require(amount > 0, "Investment amount should be greater than 0");
+        uint256 tokensToIssue = amount / property.tokenPrice;
+        require(tokensToIssue > 0, "Investment amount is too low to issue tokens");
+
+        property.totalFunds += amount;
+        property.investors.push(investor);
+        property.investments.push(amount);
+
+        PropertyToken(property.tokenAddress).transfer(investor, tokensToIssue);
+        return tokensToIssue;
     }
 
     function uint2str(uint256 _i) internal pure returns (string memory) {
