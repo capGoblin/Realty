@@ -25,7 +25,7 @@ const Properties = () => {
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-              <Badge variant="secondary">Construction</Badge>
+              <Badge variant="outline">Construction</Badge>
             </div>
             <p className="text-muted-foreground">
               New construction condo in a vibrant city neighborhood.
