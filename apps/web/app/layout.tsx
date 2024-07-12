@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import "@repo/ui/globals.css";
+
+import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
+import { PopupWidget } from "../components/PopupWidget";
 import { Web3Modal } from "../context/web3modal";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,9 +21,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Web3Modal>{children}</Web3Modal>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class">
+          <Web3Modal>
+            <Navbar />
+            <div>{children}</div>
+            <Footer />
+            {/* <PopupWidget /> */}
+          </Web3Modal>
+        </ThemeProvider>
       </body>
     </html>
   );
