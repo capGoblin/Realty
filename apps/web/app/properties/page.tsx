@@ -11,7 +11,7 @@ import {
 const Properties = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-16 mt-8 md:mt-12 m-20">
-      <Card className="bg-muted p-4 rounded-lg">
+      <Card className="p-4 rounded-lg">
         <CardHeader>
           <img
             src="/placeholder.svg"
@@ -46,7 +46,7 @@ const Properties = () => {
           </div>
         </CardContent>
       </Card>
-      <Card className="bg-muted p-4 rounded-lg">
+      <Card className="p-4 rounded-lg">
         <CardHeader>
           <img
             src="/placeholder.svg"
@@ -81,7 +81,7 @@ const Properties = () => {
           </div>
         </CardContent>
       </Card>
-      <Card className="bg-muted p-4 rounded-lg">
+      <Card className="p-4 rounded-lg">
         <CardHeader>
           <img
             src="/placeholder.svg"
@@ -116,7 +116,7 @@ const Properties = () => {
           </div>
         </CardContent>
       </Card>
-      <Card className="bg-muted p-4 rounded-lg">
+      <Card className="p-4 rounded-lg">
         <CardHeader>
           <img
             src="/placeholder.svg"
@@ -151,7 +151,7 @@ const Properties = () => {
           </div>
         </CardContent>
       </Card>
-      <Card className="bg-muted p-4 rounded-lg">
+      <Card className="p-4 rounded-lg">
         <CardHeader>
           <img
             src="/placeholder.svg"

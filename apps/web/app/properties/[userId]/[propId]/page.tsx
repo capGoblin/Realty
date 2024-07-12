@@ -1,7 +1,22 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Badge } from "@repo/ui/components/ui/badge";
+import { Button } from "@repo/ui/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@repo/ui/components/ui/dialog";
+import { Input } from "@repo/ui/components/ui/input";
+import { Label } from "@repo/ui/components/ui/label";
 
 const page = ({ params }: { params: { userId: string; propId: string } }) => {
+  const [onClick, setOnClick] = useState(false);
   return (
     <>
       <div className="flex flex-col mt-12 ml-20 justify-center items-center">
@@ -60,9 +75,54 @@ const page = ({ params }: { params: { userId: string; propId: string } }) => {
           </div>
           <div className="flex flex-col items-center">
             {" "}
-            <button className="h-14 w-36 px-8 py-2 rounded-xl bg-gradient-to-r from-blue-300 to-blue-700 text-white focus:ring-2 focus:ring-blue-400 hover:shadow-xl hover:w-40 hover:h-16 transition-all duration-500">
-              Invest
-            </button>
+            {/* {onClick ? ( */}
+            <Dialog>
+              <DialogTrigger>
+                {" "}
+                <button
+                  className="h-14 w-36 px-8 py-2 rounded-xl bg-gradient-to-r from-blue-300 to-blue-700 text-white focus:ring-2 focus:ring-blue-400 hover:shadow-xl hover:w-40 hover:h-16 transition-all duration-500"
+                  // onClick={() => setOnClick(!onClick)}
+                >
+                  Invest
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Enter Investment Amount</DialogTitle>
+                  <DialogDescription>
+                    Make changes to your profile here. Click save when you're
+                    done.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="amount" className="text-right">
+                      Amount
+                    </Label>
+                    <Input
+                      id="amount"
+                      // value="Pedro Duarte"
+                      className="col-span-3"
+                    />
+                  </div>
+                  {/* <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="username" className="text-right">
+                      Username
+                    </Label>
+                    <Input
+                      id="username"
+                      value="@peduarte"
+                      className="col-span-3"
+                    />
+                  </div> */}
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Save changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            {/* ) : ( */}
+            {/* )} */}
           </div>
         </div>
       </div>
