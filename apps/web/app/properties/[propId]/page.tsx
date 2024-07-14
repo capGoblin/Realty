@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Badge } from "@repo/ui/components/ui/badge";
 import { Button } from "@repo/ui/components/ui/button";
 import {
@@ -14,9 +14,29 @@ import {
 } from "@repo/ui/components/ui/dialog";
 import { Input } from "@repo/ui/components/ui/input";
 import { Label } from "@repo/ui/components/ui/label";
+import { useStore } from "../../../store/store";
 
-const page = ({ params }: { params: { userId: string; propId: string } }) => {
+const page = ({ params }: { params: { propId: string } }) => {
   const [onClick, setOnClick] = useState(false);
+  const { propertyState } = useStore();
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const property = propertyState[Number(params.propId)];
+    console.log(params.propId);
+    console.log({ property });
+    console.log(propertyState);
+    if (property && property.image) {
+      const url = URL.createObjectURL(property.image);
+      setImageUrl(url);
+
+      // Cleanup function to revoke the created URL
+      return () => {
+        URL.revokeObjectURL(url);
+      };
+    }
+  }, [params.propId, propertyState]);
+
   return (
     <>
       <div className="flex flex-col mt-12 ml-20 justify-center items-center">
@@ -24,16 +44,18 @@ const page = ({ params }: { params: { userId: string; propId: string } }) => {
           <div className="gap-10 space-y-12">
             <div className="flex flex-col gap-8 items-center">
               <div className="flex gap-6">
-                <h1 className="font-bold text-3xl">2 Bed, 1 Bath Condo</h1>
+                <h1 className="font-bold text-3xl">
+                  {propertyState[Number(params.propId)]?.propertyName}
+                </h1>
                 <Badge variant="outline">Construction</Badge>
               </div>
               <h3 className="text-muted-foreground text-2xl max-w-lg">
                 {" "}
-                New construction condo in a vibrant city neighborhood.
+                {propertyState[Number(params.propId)]?.description}
               </h3>
             </div>
             <img
-              src="/placeholder.svg"
+              src={imageUrl}
               width={900}
               height={700}
               alt="Property Image"
@@ -47,7 +69,9 @@ const page = ({ params }: { params: { userId: string; propId: string } }) => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-14">
               <div className="bg-blue-600 p-6 rounded-xl">
                 <h3 className="text-xl font-bold mb-2">Total Funding Needed</h3>
-                <p className="text-4xl font-bold">$500,000</p>
+                <p className="text-4xl font-bold">
+                  ${propertyState[Number(params.propId)]?.fundAmount}
+                </p>
               </div>
               <div className="bg-blue-600 p-6 rounded-xl">
                 <h3 className="text-xl font-bold mb-2">Funds Invested</h3>

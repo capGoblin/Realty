@@ -4,9 +4,27 @@ import ThemeChanger from "./DarkSwitch";
 import Image from "next/image";
 import { Disclosure } from "@headlessui/react";
 import ConnectButton from "./ConnectButton";
+import axios from "axios";
+import { useStore } from "../store/store";
 
 export const Navbar = () => {
   const navigation = ["Properties", "Curators"];
+
+  const { setOwner, setInvestor, owner, investor, isOwner } = useStore();
+
+  const handleCreate = async () => {
+    try {
+      const response = await axios.post("/api/create-account");
+      console.log({ response });
+      const { publicKey, secretKey } = response.data;
+
+      if (isOwner) {
+        setOwner({ publicKey, secretKey });
+      } else {
+        setInvestor({ publicKey, secretKey });
+      }
+    } catch (error) {}
+  };
 
   return (
     <div className="w-full">
@@ -97,7 +115,14 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-          <ConnectButton />
+          <button
+            className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-3xl text-white font-light transition duration-200 ease-linear"
+            onClick={handleCreate}
+          >
+            Create Account
+          </button>
+
+          {/* <ConnectButton /> */}
 
           <ThemeChanger />
         </div>

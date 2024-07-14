@@ -1,5 +1,19 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@repo/ui/components/ui/dialog";
 import { Button } from "@repo/ui/components/ui/button";
+import { Label } from "@repo/ui/components/ui/label";
+import { Input } from "@repo/ui/components/ui/input";
+import { Textarea } from "@repo/ui/components/ui/textarea";
 import { Badge } from "@repo/ui/components/ui/badge";
 import {
   Card,
@@ -7,185 +21,376 @@ import {
   CardTitle,
   CardContent,
 } from "@repo/ui/components/ui/card";
+import Link from "next/link";
+import { useStore } from "../../store/store";
+import PassToComp from "../../components/PassToComp";
 
 const Properties = () => {
+  const { propertyState, setPropertyState } = useStore();
+
+  // const [propertyName, setPropertyName] = useState("");
+  // const [description, setDescription] = useState("");
+  // const [image, setImage] = useState(null);
+  // const [fundAmount, setFundAmount] = useState("");
+  // const [tokens, setTokens] = useState("");
+  // const [saveProperty, setSaveProperty] = useState(false);
+
+  // const handleInputChange = (e: any) => {
+  //   const { id, value, files } = e.target;
+  //   console.log({ id, value, files });
+  //   switch (id) {
+  //     case "name":
+  //       setPropertyName(value);
+  //       break;
+  //     case "description":
+  //       setDescription(value);
+  //       break;
+  //     case "image":
+  //       setImage(files[0]);
+  //       break;
+  //     case "fund-amount":
+  //       setFundAmount(value);
+  //       break;
+  //     case "tokens":
+  //       setTokens(value);
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
+  // const handleAddProperty = async (e: any) => {
+  //   // e.preventDefault();
+  //   console.log(propertyName);
+  //   console.log(description);
+  //   console.log(image);
+  //   console.log(fundAmount);
+  //   console.log(tokens);
+
+  //   setPropertyState([
+  //     ...propertyState,
+  //     {
+  //       propertyName,
+  //       description,
+  //       image,
+  //       fundAmount,
+  //       tokens,
+  //       numberOfInvestors: "0",
+  //     },
+  //   ]);
+
+  //   setSaveProperty(true);
+  //   console.log("Property State", saveProperty);
+  //   console.log(propertyState);
+  // };
+
+  // useEffect(() => {
+  //   console.log(propertyState);
+  // }, [propertyState]);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-16 mt-8 md:mt-12 m-20">
-      <Card className="p-4 rounded-lg">
-        <CardHeader>
-          <img
-            src="/placeholder.svg"
-            width={400}
-            height={225}
-            alt="Property Image"
-            className="rounded-lg object-cover aspect-video"
-          />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-              <Badge variant="outline">Construction</Badge>
+    <div className="w-full mx-auto px-72">
+      <div className="flex items-center justify-between mb-12 mt-12">
+        <h1 className="text-3xl font-bold">Property Listings</h1>
+        <PassToComp />
+        {/* <Dialog>
+          <DialogTrigger asChild>
+            <Button>Add Property</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+              <DialogTitle>Add New Property</DialogTitle>
+              <DialogDescription>
+                Fill out the form to list a new property.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Property Name</Label>
+                <Input
+                  id="name"
+                  placeholder="Enter property name"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Describe the property"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="image">Property Image</Label>
+                <Input id="image" type="file" onChange={handleInputChange} />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="fund-amount" onChange={handleInputChange}>
+                  Fund Amount Needed
+                </Label>
+                <Input
+                  id="fund-amount"
+                  type="number"
+                  placeholder="Enter fund amount"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="tokens">Number of Tokens to Mint</Label>
+                <Input
+                  id="tokens"
+                  type="number"
+                  placeholder="Enter token count"
+                  onChange={handleInputChange}
+                />
+              </div>
             </div>
-            <p className="text-muted-foreground">
-              New construction condo in a vibrant city neighborhood.
-            </p>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <DollarSignIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">$250,000</span>
+            <DialogFooter>
+              <Button onClick={handleAddProperty}>Add Property</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog> */}
+        {/* <Link
+          href="#"
+          className="inline-flex items-center justify-center px-4 py-2 bg-primary text-primary-foreground rounded-md shadow-sm text-sm font-medium hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+          prefetch={false}
+        >
+          Add Property
+        </Link> */}
+      </div>
+      {/* {saveProperty && (
+        <PassToComp
+          propertyName={propertyName}
+          description={description}
+          image={image}
+          fundAmount={fundAmount}
+          tokens={tokens}
+          numberOfInvestors={"0"}
+          saveState={true}
+        />
+      )} */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-16 mt-8 md:mt-12">
+        {propertyState.map((property, index) => (
+          <Card key={index} className="p-1 rounded-lg">
+            <CardHeader>
+              <img
+                src={URL.createObjectURL(property.image!)}
+                width={400}
+                height={225}
+                alt="Property Image"
+                className="rounded-lg object-cover aspect-video"
+              />
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-lg font-semibold">
+                    {property.propertyName}
+                  </h3>
+                  <Badge variant="secondary">Construction</Badge>
+                </div>
+                <p className="text-muted-foreground">{property.description}</p>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <DollarSignIcon className="w-5 h-5 text-primary" />
+                    <span className="font-medium">{property.fundAmount}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <UsersIcon className="w-5 h-5 text-primary" />
+                    <span className="font-medium">
+                      {property.numberOfInvestors}
+                    </span>
+                  </div>
+                </div>
+                <Link href={`/properties/${index}`}>
+                  <Button size="lg" variant="outline" className="w-full">
+                    View Details
+                  </Button>
+                </Link>
               </div>
-              <div className="flex items-center gap-2">
-                <UsersIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">20 Investors</span>
+            </CardContent>
+          </Card>
+        ))}
+        <Card className="p-1 rounded-lg">
+          <CardHeader>
+            <img
+              src="/placeholder.svg"
+              width={400}
+              height={225}
+              alt="Property Image"
+              className="rounded-lg object-cover aspect-video"
+            />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
+                <Badge variant="secondary">Construction</Badge>
               </div>
-              <Button size="lg" variant="outline">
-                View Details
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="p-4 rounded-lg">
-        <CardHeader>
-          <img
-            src="/placeholder.svg"
-            width={400}
-            height={225}
-            alt="Property Image"
-            className="rounded-lg object-cover aspect-video"
-          />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-              <Badge variant="secondary">Construction</Badge>
-            </div>
-            <p className="text-muted-foreground">
-              New construction condo in a vibrant city neighborhood.
-            </p>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <DollarSignIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">$250,000</span>
+              <p className="text-muted-foreground">
+                New construction condo in a vibrant city neighborhood.
+              </p>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <DollarSignIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">$250,000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UsersIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">20 Investors</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <UsersIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">20 Investors</span>
-              </div>
-              <Button size="lg" variant="outline">
-                View Details
-              </Button>{" "}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="p-4 rounded-lg">
-        <CardHeader>
-          <img
-            src="/placeholder.svg"
-            width={400}
-            height={225}
-            alt="Property Image"
-            className="rounded-lg object-cover aspect-video"
-          />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-              <Badge variant="secondary">Construction</Badge>
-            </div>
-            <p className="text-muted-foreground">
-              New construction condo in a vibrant city neighborhood.
-            </p>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <DollarSignIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">$250,000</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <UsersIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">20 Investors</span>
-              </div>
-              <Button size="lg" variant="outline">
-                View Details
-              </Button>{" "}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="p-4 rounded-lg">
-        <CardHeader>
-          <img
-            src="/placeholder.svg"
-            width={400}
-            height={225}
-            alt="Property Image"
-            className="rounded-lg object-cover aspect-video"
-          />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-              <Badge variant="secondary">Construction</Badge>
-            </div>
-            <p className="text-muted-foreground">
-              New construction condo in a vibrant city neighborhood.
-            </p>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <DollarSignIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">$250,000</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <UsersIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">20 Investors</span>
-              </div>
-              <Button size="lg" variant="outline">
-                View Details
-              </Button>{" "}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="p-4 rounded-lg">
-        <CardHeader>
-          <img
-            src="/placeholder.svg"
-            width={400}
-            height={225}
-            alt="Property Image"
-            className="rounded-lg object-cover aspect-video"
-          />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-              <Badge variant="secondary">Construction</Badge>
-            </div>
-            <p className="text-muted-foreground">
-              New construction condo in a vibrant city neighborhood.
-            </p>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <DollarSignIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">$250,000</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <UsersIcon className="w-5 h-5 text-primary" />
-                <span className="font-medium">20 Investors</span>
-              </div>
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" className="w-full">
                 View Details
               </Button>{" "}
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+        <Card className="p-1 rounded-lg">
+          <CardHeader>
+            <img
+              src="/placeholder.svg"
+              width={400}
+              height={225}
+              alt="Property Image"
+              className="rounded-lg object-cover aspect-video"
+            />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
+                <Badge variant="secondary">Construction</Badge>
+              </div>
+              <p className="text-muted-foreground">
+                New construction condo in a vibrant city neighborhood.
+              </p>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <DollarSignIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">$250,000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UsersIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">20 Investors</span>
+                </div>
+              </div>
+              {/* <Link > */}
+              <Button size="lg" variant="outline" className="w-full">
+                View Details
+              </Button>{" "}
+              {/* </Link> */}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="p-1 rounded-lg">
+          <CardHeader>
+            <img
+              src="/placeholder.svg"
+              width={400}
+              height={225}
+              alt="Property Image"
+              className="rounded-lg object-cover aspect-video"
+            />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
+                <Badge variant="secondary">Construction</Badge>
+              </div>
+              <p className="text-muted-foreground">
+                New construction condo in a vibrant city neighborhood.
+              </p>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <DollarSignIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">$250,000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UsersIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">20 Investors</span>
+                </div>
+              </div>
+              <Button size="lg" variant="outline" className="w-full">
+                View Details
+              </Button>{" "}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="p-1 rounded-lg">
+          <CardHeader>
+            <img
+              src="/placeholder.svg"
+              width={400}
+              height={225}
+              alt="Property Image"
+              className="rounded-lg object-cover aspect-video"
+            />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
+                <Badge variant="secondary">Construction</Badge>
+              </div>
+              <p className="text-muted-foreground">
+                New construction condo in a vibrant city neighborhood.
+              </p>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <DollarSignIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">$250,000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UsersIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">20 Investors</span>
+                </div>
+              </div>
+              <Button size="lg" variant="outline" className="w-full">
+                View Details
+              </Button>{" "}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="p-4 rounded-lg">
+          <CardHeader>
+            <img
+              src="/placeholder.svg"
+              width={400}
+              height={225}
+              alt="Property Image"
+              className="rounded-lg object-cover aspect-video"
+            />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
+                <Badge variant="secondary">Construction</Badge>
+              </div>
+              <p className="text-muted-foreground">
+                New construction condo in a vibrant city neighborhood.
+              </p>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <DollarSignIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">$250,000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UsersIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">20 Investors</span>
+                </div>
+                <Button size="lg" variant="outline">
+                  View Details
+                </Button>{" "}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
