@@ -23,6 +23,7 @@ const page = ({ params }: { params: { propId: string } }) => {
   const { propertyState } = useStore();
   const [imageUrl, setImageUrl] = useState("");
   const [investAmount, setInvestAmount] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const property = propertyState[Number(params.propId)];
@@ -55,6 +56,8 @@ const page = ({ params }: { params: { propId: string } }) => {
       nativeToken,
     });
     console.log({ response });
+
+    setOpen(false);
   };
 
   const convertToDIAM = (amount: number) => {
@@ -102,10 +105,11 @@ const page = ({ params }: { params: { propId: string } }) => {
                 <h3 className="text-xl font-bold mb-2">Total Funding Needed</h3>
                 <p className="text-4xl font-bold">
                   <p className="text-4xl font-bold">
-                    ${propertyState[Number(params.propId)]?.fundAmount}
-                    <br />
                     <div className="text-center">
-                      (
+                      ${propertyState[Number(params.propId)]?.fundAmount}
+                      {/* </div> */}
+                      <br />
+                      {/* <div className="text-center"> */}(
                       {propertyState[Number(params.propId)]?.fundAmount
                         ? Math.round(
                             Number(
@@ -119,12 +123,15 @@ const page = ({ params }: { params: { propId: string } }) => {
                 </p>
               </div>
               <div className="bg-blue-600 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-2">Funds Invested</h3>
+                <h3 className="text-xl font-bold mb-2 text-center">
+                  Funds Invested
+                </h3>
                 <p className="text-4xl font-bold">
-                  ${propertyState[Number(params.propId)]?.fundsInvested}
-                  <br />
                   <div className="text-center">
-                    (
+                    ${propertyState[Number(params.propId)]?.fundsInvested}
+                    {/* </div> */}
+                    <br />
+                    {/* <div className="text-center"> */}(
                     {propertyState[Number(params.propId)]?.fundsInvested
                       ? Math.round(
                           Number(
@@ -137,11 +144,15 @@ const page = ({ params }: { params: { propId: string } }) => {
                 </p>
               </div>
               <div className="bg-blue-600 p-6 rounded-xl">
-                <h3 className="text-xl font-bold mb-2">Investors</h3>
+                <h3 className="text-xl font-bold mb-2 text-center">
+                  Investors
+                </h3>
                 <p className="text-4xl font-bold">
-                  {propertyState[Number(params.propId)]?.numberOfInvestors
-                    ? propertyState[Number(params.propId)]?.numberOfInvestors
-                    : 0}
+                  <div className="flex text-center items-center justify-center pt-4">
+                    {propertyState[Number(params.propId)]?.numberOfInvestors
+                      ? propertyState[Number(params.propId)]?.numberOfInvestors
+                      : 0}
+                  </div>
                 </p>
               </div>
             </div>
@@ -163,7 +174,7 @@ const page = ({ params }: { params: { propId: string } }) => {
           <div className="flex flex-col items-center">
             {" "}
             {/* {onClick ? ( */}
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger>
                 {" "}
                 <button

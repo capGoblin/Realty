@@ -213,10 +213,10 @@ const Properties = () => {
             </CardContent>
           </Card>
         ))}
-        <Card className="p-1 rounded-lg">
+        <Card className="rounded-lg">
           <CardHeader>
             <img
-              src="/placeholder.svg"
+              src="/img/nyc-condo.png"
               width={400}
               height={225}
               alt="Property Image"
@@ -235,7 +235,7 @@ const Properties = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <DollarSignIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">$250,000</span>
+                  <span className="font-medium">250,000</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <UsersIcon className="w-5 h-5 text-primary" />
@@ -248,10 +248,10 @@ const Properties = () => {
             </div>
           </CardContent>
         </Card>
-        <Card className="p-1 rounded-lg">
+        <Card className="rounded-lg">
           <CardHeader>
             <img
-              src="/placeholder.svg"
+              src="/img/ny-highrise-condo.png"
               width={400}
               height={225}
               alt="Property Image"
@@ -270,44 +270,7 @@ const Properties = () => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <DollarSignIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">$250,000</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <UsersIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">20 Investors</span>
-                </div>
-              </div>
-              {/* <Link > */}
-              <Button size="lg" variant="outline" className="w-full">
-                View Details
-              </Button>{" "}
-              {/* </Link> */}
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="p-1 rounded-lg">
-          <CardHeader>
-            <img
-              src="/placeholder.svg"
-              width={400}
-              height={225}
-              alt="Property Image"
-              className="rounded-lg object-cover aspect-video"
-            />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-                <Badge variant="secondary">Construction</Badge>
-              </div>
-              <p className="text-muted-foreground">
-                New construction condo in a vibrant city neighborhood.
-              </p>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <DollarSignIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">$250,000</span>
+                  <span className="font-medium">250,000</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <UsersIcon className="w-5 h-5 text-primary" />
@@ -317,76 +280,6 @@ const Properties = () => {
               <Button size="lg" variant="outline" className="w-full">
                 View Details
               </Button>{" "}
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="p-1 rounded-lg">
-          <CardHeader>
-            <img
-              src="/placeholder.svg"
-              width={400}
-              height={225}
-              alt="Property Image"
-              className="rounded-lg object-cover aspect-video"
-            />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-                <Badge variant="secondary">Construction</Badge>
-              </div>
-              <p className="text-muted-foreground">
-                New construction condo in a vibrant city neighborhood.
-              </p>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <DollarSignIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">$250,000</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <UsersIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">20 Investors</span>
-                </div>
-              </div>
-              <Button size="lg" variant="outline" className="w-full">
-                View Details
-              </Button>{" "}
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="p-4 rounded-lg">
-          <CardHeader>
-            <img
-              src="/placeholder.svg"
-              width={400}
-              height={225}
-              alt="Property Image"
-              className="rounded-lg object-cover aspect-video"
-            />
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-                <Badge variant="secondary">Construction</Badge>
-              </div>
-              <p className="text-muted-foreground">
-                New construction condo in a vibrant city neighborhood.
-              </p>
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <DollarSignIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">$250,000</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <UsersIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">20 Investors</span>
-                </div>
-                <Button size="lg" variant="outline">
-                  View Details
-                </Button>{" "}
-              </div>
             </div>
           </CardContent>
         </Card>
