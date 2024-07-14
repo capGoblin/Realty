@@ -15,11 +15,14 @@ import {
 import { Input } from "@repo/ui/components/ui/input";
 import { Label } from "@repo/ui/components/ui/label";
 import { useStore } from "../../../store/store";
+import axios from "axios";
 
 const page = ({ params }: { params: { propId: string } }) => {
+  const { investor, owner, contract } = useStore();
   const [onClick, setOnClick] = useState(false);
   const { propertyState } = useStore();
   const [imageUrl, setImageUrl] = useState("");
+  const [investAmount, setInvestAmount] = useState("");
 
   useEffect(() => {
     const property = propertyState[Number(params.propId)];
@@ -36,6 +39,34 @@ const page = ({ params }: { params: { propId: string } }) => {
       };
     }
   }, [params.propId, propertyState]);
+
+  const handleInvestment = async () => {
+    console.log(investAmount);
+    const tokens = convertToToken(Number(investAmount));
+    const nativeToken = convertToDIAM(Number(investAmount));
+    const tokenName = propertyState[Number(params.propId)]?.tokenName;
+    const contractPubKey = contract?.publicKey;
+    const response = await axios.post("/api/invest-in-property", {
+      assetName: tokenName,
+      investor,
+      tokens,
+      contractPubKey,
+      owner,
+      nativeToken,
+    });
+    console.log({ response });
+  };
+
+  const convertToDIAM = (amount: number) => {
+    return amount / 10000;
+  };
+
+  const convertToToken = (amount: number) => {
+    const perToken =
+      (Number(propertyState[Number(params.propId)]?.fundAmount) || 0) /
+      (Number(propertyState[Number(params.propId)]?.tokens) || 1);
+    return amount / perToken;
+  };
 
   return (
     <>
@@ -70,16 +101,48 @@ const page = ({ params }: { params: { propId: string } }) => {
               <div className="bg-blue-600 p-6 rounded-xl">
                 <h3 className="text-xl font-bold mb-2">Total Funding Needed</h3>
                 <p className="text-4xl font-bold">
-                  ${propertyState[Number(params.propId)]?.fundAmount}
+                  <p className="text-4xl font-bold">
+                    ${propertyState[Number(params.propId)]?.fundAmount}
+                    <br />
+                    <div className="text-center">
+                      (
+                      {propertyState[Number(params.propId)]?.fundAmount
+                        ? Math.round(
+                            Number(
+                              propertyState[Number(params.propId)]?.fundAmount,
+                            ) / 10000,
+                          )
+                        : 0}{" "}
+                      DIAM)
+                    </div>
+                  </p>
                 </p>
               </div>
               <div className="bg-blue-600 p-6 rounded-xl">
                 <h3 className="text-xl font-bold mb-2">Funds Invested</h3>
-                <p className="text-4xl font-bold">$375,000</p>
+                <p className="text-4xl font-bold">
+                  ${propertyState[Number(params.propId)]?.fundsInvested}
+                  <br />
+                  <div className="text-center">
+                    (
+                    {propertyState[Number(params.propId)]?.fundsInvested
+                      ? Math.round(
+                          Number(
+                            propertyState[Number(params.propId)]?.fundsInvested,
+                          ) / 10000,
+                        )
+                      : 0}{" "}
+                    DIAM)
+                  </div>
+                </p>
               </div>
               <div className="bg-blue-600 p-6 rounded-xl">
                 <h3 className="text-xl font-bold mb-2">Investors</h3>
-                <p className="text-4xl font-bold">42</p>
+                <p className="text-4xl font-bold">
+                  {propertyState[Number(params.propId)]?.numberOfInvestors
+                    ? propertyState[Number(params.propId)]?.numberOfInvestors
+                    : 0}
+                </p>
               </div>
             </div>
           </div>
@@ -114,20 +177,27 @@ const page = ({ params }: { params: { propId: string } }) => {
                 <DialogHeader>
                   <DialogTitle>Enter Investment Amount</DialogTitle>
                   <DialogDescription>
-                    Make changes to your profile here. Click save when you're
-                    done.
+                    You will get {convertToToken(Number(investAmount))}{" "}
+                    {propertyState[Number(params.propId)]?.tokenName}, for (
+                    {convertToDIAM(Number(investAmount))}) DIAM
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
+                  <div className="grid grid-cols-4 items-center gap-4 relative">
                     <Label htmlFor="amount" className="text-right">
-                      Amount
+                      Amount in USD
                     </Label>
                     <Input
                       id="amount"
                       // value="Pedro Duarte"
                       className="col-span-3"
+                      onChange={(e) => setInvestAmount(e.target.value)}
                     />
+                    <span className="absolute right-4 flex items-center text-gray-400">
+                      {investAmount
+                        ? `${convertToDIAM(Number(investAmount))} DIAM`
+                        : ""}
+                    </span>
                   </div>
                   {/* <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="username" className="text-right">
@@ -141,7 +211,9 @@ const page = ({ params }: { params: { propId: string } }) => {
                   </div> */}
                 </div>
                 <DialogFooter>
-                  <Button type="submit">Save changes</Button>
+                  <Button type="submit" onClick={handleInvestment}>
+                    Save changes
+                  </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>

@@ -14,6 +14,7 @@ import { Label } from "@repo/ui/components/ui/label";
 import { Input } from "@repo/ui/components/ui/input";
 import { Textarea } from "@repo/ui/components/ui/textarea";
 import { Badge } from "@repo/ui/components/ui/badge";
+import axios from "axios";
 
 type PassToCompProps = {
   propertyName: string;
@@ -25,8 +26,9 @@ type PassToCompProps = {
   saveState: boolean;
 };
 
+const BASE_URL = "https://diamtestnet.diamcircle.io";
 const PassToComp = () => {
-  const { propertyState, setPropertyState, isOwner, setIsOwner } = useStore();
+  const { propertyState, setPropertyState, owner, contract } = useStore();
   const [open, setOpen] = useState(false);
 
   const [propertyName, setPropertyName] = useState("");
@@ -34,6 +36,7 @@ const PassToComp = () => {
   const [image, setImage] = useState(null);
   const [fundAmount, setFundAmount] = useState("");
   const [tokens, setTokens] = useState("");
+  const [tokenName, setTokenName] = useState("");
 
   const handleInputChange = (e: any) => {
     const { id, value, files } = e.target;
@@ -53,6 +56,9 @@ const PassToComp = () => {
         break;
       case "tokens":
         setTokens(value);
+        break;
+      case "tok_name":
+        setTokenName(value);
         break;
       default:
         break;
@@ -76,10 +82,29 @@ const PassToComp = () => {
         fundAmount,
         tokens,
         numberOfInvestors: "0",
+        fundsInvested: "0",
+        tokenName,
       },
     ]);
 
+    // const response = await axios.post("/api/list-property", {
+    //   tokens: tokens,
+    //   publicKey: owner.publicKey,
+    // });
+    console.log(contract);
+    const response = await axios.post("/api/mint-to-owner", {
+      assetName: tokenName,
+      owner: owner,
+      amountToMint: tokens,
+      contract,
+    });
+    console.log({ response });
+
     setOpen(false);
+  };
+
+  const convertToDIAM = (amount: number) => {
+    return amount / 10000;
   };
 
   // const handleCreate = async () => {
@@ -138,14 +163,26 @@ const PassToComp = () => {
               <Label htmlFor="image">Property Image</Label>
               <Input id="image" type="file" onChange={handleInputChange} />
             </div>
-            <div className="grid gap-2">
+            <div className="grid gap-2 relative">
               <Label htmlFor="fund-amount" onChange={handleInputChange}>
-                Fund Amount Needed
+                Fund Amount Needed in USD
               </Label>
               <Input
                 id="fund-amount"
                 type="number"
                 placeholder="Enter fund amount"
+                onChange={handleInputChange}
+              />
+              <span className="absolute right-11 mt-7 flex items-center text-gray-400">
+                {fundAmount ? `${convertToDIAM(Number(fundAmount))} DIAM` : ""}
+              </span>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="tok_name">Token Name</Label>
+              <Input
+                id="tok_name"
+                type="string"
+                placeholder="Enter tokens name"
                 onChange={handleInputChange}
               />
             </div>

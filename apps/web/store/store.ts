@@ -15,6 +15,8 @@ interface States {
   setIsOwner: (isOwner: boolean) => void;
   propertyState: PropertyState[];
   setPropertyState: (propertyState: PropertyState[]) => void;
+  contract: Keys | null;
+  setContract: (keys: Keys) => void;
 }
 interface PropertyState {
   propertyName: string;
@@ -23,6 +25,8 @@ interface PropertyState {
   fundAmount: string;
   tokens: string;
   numberOfInvestors: string;
+  fundsInvested: string;
+  tokenName: string;
 }
 // useBearStore
 export const useStore = create<States>((set) => ({
@@ -34,4 +38,6 @@ export const useStore = create<States>((set) => ({
   setIsOwner: (isOwner: boolean) => set({ isOwner }),
   propertyState: [],
   setPropertyState: (propertyState: PropertyState[]) => set({ propertyState }),
+  contract: null,
+  setContract: (keys: Keys) => set(() => ({ contract: keys })),
 }));

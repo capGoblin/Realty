@@ -10,18 +10,49 @@ import { useStore } from "../store/store";
 export const Navbar = () => {
   const navigation = ["Properties", "Curators"];
 
-  const { setOwner, setInvestor, owner, investor, isOwner } = useStore();
+  const {
+    setOwner,
+    setInvestor,
+    owner,
+    investor,
+    isOwner,
+    contract,
+    setContract,
+  } = useStore();
 
   const handleCreate = async () => {
     try {
-      const response = await axios.post("/api/create-account");
-      console.log({ response });
-      const { publicKey, secretKey } = response.data;
+      let publicKey;
+      let secretKey;
+      let contractPubKey, contractSecKey;
+      let response;
+      if (!contract) {
+        response = await axios.post("/api/create-account", {
+          createContract: true,
+        });
+        console.log({ response });
+        publicKey = response.data.publicKey;
+        secretKey = response.data.secretKey;
+        contractPubKey = response.data.contractPubKey;
+        contractSecKey = response.data.contractSecKey;
+      } else {
+        response = await axios.post("/api/create-account", {
+          createContract: false,
+        });
+        console.log({ response });
+        publicKey = response.data.publicKey;
+        secretKey = response.data.secretKey;
+      }
 
-      if (isOwner) {
+      if (!contract) {
         setOwner({ publicKey, secretKey });
       } else {
         setInvestor({ publicKey, secretKey });
+        console.log("here");
+      }
+
+      if (!contract) {
+        setContract({ publicKey: contractPubKey, secretKey: contractSecKey });
       }
     } catch (error) {}
   };

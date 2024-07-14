@@ -1,7 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import DiamSdk from "diamante-sdk-js";
-const server = new DiamSdk.Horizon.Server("https://diamtestnet.diamcircle.io/");
+// import { useStore } from "../../../store/store";
 
+const server = new DiamSdk.Horizon.Server("https://diamtestnet.diamcircle.io/");
 export const GET = async () => {
   return NextResponse.json(
     { message: "Hello, Next.js Version 13!" },
@@ -10,17 +11,28 @@ export const GET = async () => {
 };
 
 export const POST = async (request: NextRequest) => {
-  // const body = await request.json();
+  // const { contractPubKey, setContractPubKey } = useStore();
+  const body = await request.json();
   // console.log({ body });
 
   try {
+    let contractPubKey;
+    let contractSecKey;
     const { publicKey, secretKey } = await generateAccount();
+    if (body.createContract) {
+      const { publicKey, secretKey } = await generateAccount();
+      contractPubKey = publicKey;
+      contractSecKey = secretKey;
+    }
+
     // Return the keys directly in the NextResponse
     return NextResponse.json(
       {
         message: "Operation successful",
         publicKey: publicKey,
         secretKey: secretKey,
+        contractPubKey,
+        contractSecKey,
       },
       { status: 200 },
     ); // Ensure the status code and keys are part of the same object
