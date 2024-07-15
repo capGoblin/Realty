@@ -1,11 +1,9 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import "@repo/ui/globals.css";
+import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
+import { Inter } from "next/font/google";
 
 import { Navbar } from "../components/Navbar";
-import { Footer } from "../components/Footer";
-import { PopupWidget } from "../components/PopupWidget";
 // import { Web3Modal } from "../context/web3modal";
 
 const inter = Inter({ subsets: ["latin"] });

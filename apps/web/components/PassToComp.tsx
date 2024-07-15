@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useStore } from "../store/store";
+import { Button } from "@repo/ui/components/ui/button";
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
 } from "@repo/ui/components/ui/dialog";
-import { Button } from "@repo/ui/components/ui/button";
-import { Label } from "@repo/ui/components/ui/label";
 import { Input } from "@repo/ui/components/ui/input";
+import { Label } from "@repo/ui/components/ui/label";
 import { Textarea } from "@repo/ui/components/ui/textarea";
-import { Badge } from "@repo/ui/components/ui/badge";
 import axios from "axios";
-import { setupReceiver, mint } from "../utils/tx-functions";
+import { useState } from "react";
+import { useStore } from "../store/store";
 
 type PassToCompProps = {
   propertyName: string;

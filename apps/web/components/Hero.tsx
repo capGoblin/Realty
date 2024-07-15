@@ -1,8 +1,7 @@
 import Image from "next/image";
-import { Container } from "./Container";
-import heroImg from "../public/img/hero.png";
-import { Button } from "@repo/ui/components/ui/button";
 import Link from "next/link";
+import heroImg from "../public/img/hero.png";
+import { Container } from "./Container";
 
 export const Hero = () => {
   return (

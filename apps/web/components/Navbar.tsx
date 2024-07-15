@@ -1,13 +1,11 @@
 "use client";
-import Link from "next/link";
-import ThemeChanger from "./DarkSwitch";
-import Image from "next/image";
-import Blockies from "react-blockies";
 import { Disclosure } from "@headlessui/react";
-import ConnectButton from "./ConnectButton";
-import axios from "axios";
-import { useStore } from "../store/store";
+import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import Blockies from "react-blockies";
+import { useStore } from "../store/store";
+import ThemeChanger from "./DarkSwitch";
 
 export const Navbar = () => {
   const navigation = ["Properties", "Investments"];

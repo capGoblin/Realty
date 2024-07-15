@@ -1,23 +1,20 @@
 "use client";
-import React from "react";
 import { Button } from "@repo/ui/components/ui/button";
-import { Badge } from "@repo/ui/components/ui/badge";
 import {
   Card,
+  CardContent,
   CardHeader,
   CardTitle,
-  CardContent,
 } from "@repo/ui/components/ui/card";
 import {
-  Keypair,
-  Horizon,
-  Networks,
-  TransactionBuilder,
-  BASE_FEE,
-  Operation,
   Asset,
+  BASE_FEE,
+  Horizon,
+  Keypair,
+  Networks,
+  Operation,
+  TransactionBuilder,
 } from "diamante-sdk-js";
-import Link from "next/link";
 import { useStore } from "../../store/store";
 
 const server = new Horizon.Server("https://diamtestnet.diamcircle.io/");
@@ -28,12 +25,12 @@ const Investments = () => {
     return amount / 10000;
   };
 
-  const convertToToken = (amount: number) => {
-    const perToken =
-      (Number(propertyState[0]?.fundAmount) || 0) /
-      (Number(propertyState[0]?.tokens) || 1000);
-    return amount / perToken;
-  };
+  // const convertToToken = (amount: number) => {
+  //   const perToken =
+  //     (Number(propertyState[0]?.fundAmount) || 0) /
+  //     (Number(propertyState[0]?.tokens) || 1000);
+  //   return amount / perToken;
+  // };
 
   const fundsInvested = parseFloat(propertyState[0]?.fundsInvested || "0");
   const calculationResult = fundsInvested
@@ -254,7 +251,7 @@ function XIcon(props: any) {
   );
 }
 
-export async function transfer(
+async function transfer(
   distributorPubKey: any,
   distributorSecretKey: any,
   receiverPubKey: any,
@@ -298,7 +295,7 @@ export async function transfer(
   return result;
 }
 
-export async function mint(
+async function mint(
   distributorPubKey: any,
   distributorSecretKey: any,
   receiverPubKey: any,

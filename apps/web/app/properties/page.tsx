@@ -1,29 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@repo/ui/components/ui/dialog";
-import { Button } from "@repo/ui/components/ui/button";
-import { Label } from "@repo/ui/components/ui/label";
-import { Input } from "@repo/ui/components/ui/input";
-import { Textarea } from "@repo/ui/components/ui/textarea";
 import { Badge } from "@repo/ui/components/ui/badge";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@repo/ui/components/ui/card";
-import Link from "next/link";
-import { useStore } from "../../store/store";
+import { Button } from "@repo/ui/components/ui/button";
+import { Card, CardContent, CardHeader } from "@repo/ui/components/ui/card";
 import PassToComp from "../../components/PassToComp";
+import { useStore } from "../../store/store";
 
 const Properties = () => {
   const { propertyState, setPropertyState } = useStore();

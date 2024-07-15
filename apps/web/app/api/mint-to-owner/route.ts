@@ -1,5 +1,5 @@
-import { NextResponse, NextRequest } from "next/server";
 import DiamSdk from "diamante-sdk-js";
+import { NextRequest, NextResponse } from "next/server";
 
 const server = new DiamSdk.Horizon.Server("https://diamtestnet.diamcircle.io/");
 
