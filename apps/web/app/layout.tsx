@@ -6,7 +6,7 @@ import "@repo/ui/globals.css";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { PopupWidget } from "../components/PopupWidget";
-import { Web3Modal } from "../context/web3modal";
+// import { Web3Modal } from "../context/web3modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,12 +24,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class">
-          <Web3Modal>
-            <Navbar />
-            <div>{children}</div>
-            <Footer />
-            {/* <PopupWidget /> */}
-          </Web3Modal>
+          {/* <Web3Modal> */}
+          <Navbar />
+          <div>{children}</div>
+          {/* <Footer /> */}
+          {/* <PopupWidget /> */}
+          {/* </Web3Modal> */}
         </ThemeProvider>
       </body>
     </html>

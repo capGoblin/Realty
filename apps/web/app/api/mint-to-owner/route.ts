@@ -20,33 +20,33 @@ export const POST = async (request: NextRequest) => {
   console.log({ body });
 
   try {
-    const res = await setupReceiver(
+    // const res = await setupReceiver(
+    //   contractPublicKey,
+    //   ownerPublicKey,
+    //   ownerSecretKey,
+    //   assetName,
+    // );
+    // if (res.successful) {
+    const res = await mint(
       contractPublicKey,
+      contractSecretKey,
       ownerPublicKey,
-      ownerSecretKey,
       assetName,
+      amountToMint,
     );
-    if (res.successful) {
-      const res = await mint(
-        contractPublicKey,
-        contractSecretKey,
-        ownerPublicKey,
-        assetName,
-        amountToMint,
-      );
 
-      if (res.successful) {
-        return NextResponse.json(
-          { message: "Mint to owner successful", hash: res.hash },
-          { status: 200 },
-        );
-      }
-    } else {
+    if (res.successful) {
       return NextResponse.json(
-        { message: "Mint to owner failed but trustline created" },
-        { status: 500 },
+        { message: "Mint to owner successful", hash: res.hash },
+        { status: 200 },
       );
     }
+    // } else {
+    //   return NextResponse.json(
+    //     { message: "Mint to owner failed but trustline created" },
+    //     { status: 500 },
+    //   );
+    // }
 
     // const { publicKey, secretKey } = await generateAccount();
     // Return the keys directly in the NextResponse
@@ -92,6 +92,12 @@ async function setupReceiver(
     .build();
 
   tx.sign(DiamSdk.Keypair.fromSecret(receiverSecretKey));
+  // const xdr = (tx as any).toXDR("base64");
+  // const signResp = await (window as any).diam.sign(
+  //   xdr,
+  //   true,
+  //   "Diamante Testnet",
+  // );
 
   const result = await server.submitTransaction(tx);
 

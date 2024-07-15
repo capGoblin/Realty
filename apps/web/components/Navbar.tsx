@@ -2,13 +2,16 @@
 import Link from "next/link";
 import ThemeChanger from "./DarkSwitch";
 import Image from "next/image";
+import Blockies from "react-blockies";
 import { Disclosure } from "@headlessui/react";
 import ConnectButton from "./ConnectButton";
 import axios from "axios";
 import { useStore } from "../store/store";
+import { useState } from "react";
 
 export const Navbar = () => {
-  const navigation = ["Properties", "Curators"];
+  const navigation = ["Properties", "Investments"];
+  const [pubKey, setPubKey] = useState("");
 
   const {
     setOwner,
@@ -20,40 +23,90 @@ export const Navbar = () => {
     setContract,
   } = useStore();
 
+  const connectWallet = async () => {
+    if (!(window as any).diam) {
+      console.error("Diam Wallet extension is not installed!");
+      return;
+    }
+    let address;
+    try {
+      const res = await (window as any).diam.connect();
+      console.log({ res });
+      address = res.message[0];
+      if (
+        address === "GBMIHVONF4XAZMSJDUOMUFT6ZTUGRYQDK6TWGNSQ42WDFQ5SYPSXEBID"
+      ) {
+        setOwner({ publicKey: address, secretKey: "" });
+      } else {
+        setInvestor({ publicKey: address, secretKey: "" });
+      }
+      setContract({
+        publicKey: "GB5S25ZMYGR2HOPWT7AQCBUR7YXM3PD2XLA7OLOC673BQ67KF2J6CB7D",
+        secretKey: "SB2KH3GLA4W5LH3K2CRZRDBCBGCRT7DISVDYEATD7H7MPCAV7EMTVAO4",
+      });
+
+      setPubKey(address);
+      // setAddress(address);
+      // const response = await fetch("https://fractal-shares-back-end.vercel.app/storeAddress", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ address }),
+      // });
+      //   const data = await response.json();
+      //   if (response.ok) {
+      //     toast.success("Wallet Connected!");
+      //   } else {
+      //     toast.error("Failed to store wallet address!");
+      //     console.error(dataconnectWallet().message);
+      //   }
+      // } catch (error) {
+      //   console.error("Failed to connect wallet:", error);
+      //   toast.error("Failed to connect wallet!");
+      // }
+    } catch (error) {}
+
+    return address;
+  };
+
   const handleCreate = async () => {
     try {
       let publicKey;
       let secretKey;
       let contractPubKey, contractSecKey;
       let response;
-      if (!contract) {
-        response = await axios.post("/api/create-account", {
-          createContract: true,
-        });
-        console.log({ response });
-        publicKey = response.data.publicKey;
-        secretKey = response.data.secretKey;
-        contractPubKey = response.data.contractPubKey;
-        contractSecKey = response.data.contractSecKey;
-      } else {
-        response = await axios.post("/api/create-account", {
-          createContract: false,
-        });
-        console.log({ response });
-        publicKey = response.data.publicKey;
-        secretKey = response.data.secretKey;
-      }
 
-      if (!contract) {
-        setOwner({ publicKey, secretKey });
-      } else {
-        setInvestor({ publicKey, secretKey });
-        console.log("here");
-      }
+      connectWallet();
 
-      if (!contract) {
-        setContract({ publicKey: contractPubKey, secretKey: contractSecKey });
-      }
+      // if (!contract) {
+      //   response = await axios.post("/api/create-account", {
+      //     createContract: true,
+      //   });
+      //   console.log({ response });
+      //   publicKey = response.data.publicKey;
+      //   secretKey = response.data.secretKey;
+      //   contractPubKey = response.data.contractPubKey;
+      //   contractSecKey = response.data.contractSecKey;
+      // } else {
+      //   response = await axios.post("/api/create-account", {
+      //     createContract: false,
+      //   });
+      //   console.log({ response });
+      //   publicKey = response.data.publicKey;
+      //   secretKey = response.data.secretKey;
+      // }
+
+      // if (!contract) {
+      //   setOwner({ publicKey, secretKey });
+      // } else {
+      //   setInvestor({ publicKey, secretKey });
+      //   console.log("here");
+      // }
+
+      // if (!contract) {
+      //   setContract({ publicKey: contractPubKey, secretKey: contractSecKey });
+      // }
     } catch (error) {}
   };
 
@@ -146,12 +199,21 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-          <button
-            className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-3xl text-white font-light transition duration-200 ease-linear"
-            onClick={handleCreate}
-          >
-            Create Account
-          </button>
+          {pubKey ? (
+            <div className="bg-blue-600 py-2 px-4 text-white rounded-full transition duration-300">
+              <span className="flex items-center">
+                <Blockies seed={pubKey} className="rounded-full h-8 w-8 mr-2" />
+                {`${pubKey?.slice(0, 6)}...${pubKey?.slice(-6)}`}{" "}
+              </span>
+            </div>
+          ) : (
+            <button
+              className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,118,255,0.9)] px-8 py-2 bg-[#0070f3] rounded-3xl text-white font-light transition duration-200 ease-linear"
+              onClick={handleCreate}
+            >
+              Connect Wallet
+            </button>
+          )}
 
           {/* <ConnectButton /> */}
 

@@ -15,6 +15,7 @@ import { Input } from "@repo/ui/components/ui/input";
 import { Textarea } from "@repo/ui/components/ui/textarea";
 import { Badge } from "@repo/ui/components/ui/badge";
 import axios from "axios";
+import { setupReceiver, mint } from "../utils/tx-functions";
 
 type PassToCompProps = {
   propertyName: string;
@@ -26,7 +27,6 @@ type PassToCompProps = {
   saveState: boolean;
 };
 
-const BASE_URL = "https://diamtestnet.diamcircle.io";
 const PassToComp = () => {
   const { propertyState, setPropertyState, owner, contract } = useStore();
   const [open, setOpen] = useState(false);
@@ -91,10 +91,33 @@ const PassToComp = () => {
     //   tokens: tokens,
     //   publicKey: owner.publicKey,
     // });
-    console.log(contract);
+    // const res = await setupReceiver(
+    //   contract?.publicKey,
+    //   contract?.publicKey,
+    //   contract?.secretKey,
+    //   tokenName,
+    // );
+
+    // if (res.successful) {
+    //   const mintRes = await mint(
+    //     contract?.publicKey,
+    //     contract?.secretKey,
+    //     contract?.publicKey,
+    //     tokenName,
+    //     tokens,
+    //   );
+
+    //   if (mintRes.successful) {
+    //     console.log("Mint successful", res.hash);
+    //   }
+    // } else {
+    //   console.error("Mint failed but trustline created");
+    // }
+
+    // console.log(contract);
     const response = await axios.post("/api/mint-to-owner", {
       assetName: tokenName,
-      owner: owner,
+      owner: contract,
       amountToMint: tokens,
       contract,
     });
@@ -133,7 +156,9 @@ const PassToComp = () => {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button>Add Property</Button>
+          <button className="shadow-[0_4px_14px_0_rgb(0,118,255,39%)] hover:shadow-[0_6px_20px_rgba(0,118,255,23%)] hover:bg-[rgba(0,102,255,0.88)] px-8 py-2 bg-[#0070f3] rounded-xl text-white font-medium transition duration-200 ease-linear hover:scale-105">
+            Add Property
+          </button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>

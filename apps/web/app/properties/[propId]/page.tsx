@@ -16,9 +16,16 @@ import { Input } from "@repo/ui/components/ui/input";
 import { Label } from "@repo/ui/components/ui/label";
 import { useStore } from "../../../store/store";
 import axios from "axios";
+import { setupReceiverInvestor, transfer } from "../../../utils/tx-functions";
 
 const page = ({ params }: { params: { propId: string } }) => {
-  const { investor, owner, contract } = useStore();
+  const {
+    investor,
+    owner,
+    contract,
+    updateFundsInvested,
+    updateNoOfInvestors,
+  } = useStore();
   const [onClick, setOnClick] = useState(false);
   const { propertyState } = useStore();
   const [imageUrl, setImageUrl] = useState("");
@@ -47,15 +54,80 @@ const page = ({ params }: { params: { propId: string } }) => {
     const nativeToken = convertToDIAM(Number(investAmount));
     const tokenName = propertyState[Number(params.propId)]?.tokenName;
     const contractPubKey = contract?.publicKey;
-    const response = await axios.post("/api/invest-in-property", {
-      assetName: tokenName,
-      investor,
-      tokens,
-      contractPubKey,
-      owner,
-      nativeToken,
-    });
-    console.log({ response });
+
+    const res = await setupReceiverInvestor(
+      contract?.publicKey,
+      investor.publicKey,
+      "",
+      tokenName,
+    );
+    const resTransferToInvestor = await transfer(
+      contract?.publicKey,
+      contract?.secretKey,
+      investor.publicKey,
+      tokenName,
+      contract?.publicKey,
+      String(tokens),
+    );
+    const resTransferToOwner = await transfer(
+      investor.publicKey,
+      "",
+      owner.publicKey,
+      "",
+      "",
+      String(nativeToken),
+    );
+    console.log(res);
+    console.log(resTransferToInvestor);
+    console.log(resTransferToOwner);
+    // if (res.successful) {
+    //   const resTransferToInvestor = await transfer(
+    //     contract?.publicKey,
+    //     contract?.secretKey,
+    //     investor.publicKey,
+    //     tokenName,
+    //     contract?.publicKey,
+    //     String(tokens),
+    //   );
+    //   if (resTransferToInvestor.successful) {
+    //     const resTransferToOwner = await transfer(
+    //       investor.publicKey,
+    //       "",
+    //       owner.publicKey,
+    //       "",
+    //       "",
+    //       String(nativeToken),
+    //     );
+
+    //     if (resTransferToOwner.successful) {
+    //       console.log({
+    //         messageToIn: "Transfer to investor successful",
+    //         hashToIn: resTransferToInvestor.hash,
+    //         messageToOwn: "Transfer to owner successful",
+    //         hashToOwn: resTransferToOwner.hash,
+    //       });
+    //     } else {
+    //       console.error("Failed to transfer to owner");
+    //     }
+    //   } else {
+    //     console.error("Failed to setup receiver");
+    //   }
+    // } else {
+    //   console.error("Failed to transfer to receiver");
+    // }
+
+    // const response = await axios.post("/api/invest-in-property", {
+    //   assetName: tokenName,
+    //   investor,
+    //   tokens,
+    //   contractPubKey,
+    //   owner,
+    //   nativeToken,s
+    // });
+    console.log("soya");
+
+    updateFundsInvested(Number(params.propId), investAmount);
+    updateNoOfInvestors(Number(params.propId));
 
     setOpen(false);
   };

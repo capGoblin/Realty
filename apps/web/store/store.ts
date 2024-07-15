@@ -28,8 +28,15 @@ interface PropertyState {
   fundsInvested: string;
   tokenName: string;
 }
-// useBearStore
-export const useStore = create<States>((set) => ({
+
+interface StoreActions {
+  updateFundsInvested: (propId: number, investAmount: string) => void;
+  updateNoOfInvestors: (propId: number) => void;
+}
+
+interface Store extends States, StoreActions {}
+
+export const useStore = create<Store>((set) => ({
   owner: { secretKey: "", publicKey: "" },
   setOwner: (keys: Keys) => set(() => ({ owner: keys })),
   investor: { secretKey: "", publicKey: "" },
@@ -40,4 +47,39 @@ export const useStore = create<States>((set) => ({
   setPropertyState: (propertyState: PropertyState[]) => set({ propertyState }),
   contract: null,
   setContract: (keys: Keys) => set(() => ({ contract: keys })),
+  updateFundsInvested: (propId: number, investAmount: string) =>
+    set((state) => {
+      // Assuming propId is the index of the property in the array
+      const updatedPropertyStates = state.propertyState.map(
+        (property, index) => {
+          if (index === propId) {
+            // Convert fundsInvested and investAmount to numbers to add them
+            const updatedFundsInvested = (
+              Number(property.fundsInvested) + Number(investAmount)
+            ).toString();
+            return { ...property, fundsInvested: updatedFundsInvested };
+          }
+          return property;
+        },
+      );
+
+      return { propertyState: updatedPropertyStates };
+    }),
+  updateNoOfInvestors: (propId: number) =>
+    set((state) => {
+      // Assuming propId is the index of the property in the array
+      const updatedPropertyStates = state.propertyState.map(
+        (property, index) => {
+          if (index === propId) {
+            return {
+              ...property,
+              numberOfInvestors: String(Number(property.numberOfInvestors) + 1),
+            };
+          }
+          return property;
+        },
+      );
+
+      return { propertyState: updatedPropertyStates };
+    }),
 }));
