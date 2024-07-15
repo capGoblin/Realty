@@ -25,7 +25,6 @@
     "@headlessui/react": "^2.0.3",
     "@heroicons/react": "^2.1.3",
     "@repo/ui": "workspace:*",
-    "@web3modal/ethers": "^5.0.6",
     "axios": "^1.7.2",
     "diamante-sdk-js": "^1.0.3",
     "ethers": "^6.13.1",
