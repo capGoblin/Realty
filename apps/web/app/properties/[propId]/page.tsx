@@ -132,14 +132,15 @@ const page = ({ params }: { params: { propId: string } }) => {
     setOpen(false);
   };
 
+  const perToken =
+    (Number(propertyState[Number(params.propId)]?.fundAmount) || 0) /
+    (Number(propertyState[Number(params.propId)]?.tokens) || 1000);
+
   const convertToDIAM = (amount: number) => {
     return amount / 10000;
   };
 
   const convertToToken = (amount: number) => {
-    const perToken =
-      (Number(propertyState[Number(params.propId)]?.fundAmount) || 0) /
-      (Number(propertyState[Number(params.propId)]?.tokens) || 1);
     return amount / perToken;
   };
 
@@ -172,7 +173,7 @@ const page = ({ params }: { params: { propId: string } }) => {
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">
               Funding Details
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-14">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-14">
               <div className="bg-blue-600 p-6 rounded-xl">
                 <h3 className="text-xl font-bold mb-2">Total Funding Needed</h3>
                 <p className="text-4xl font-bold">
@@ -183,11 +184,9 @@ const page = ({ params }: { params: { propId: string } }) => {
                       <br />
                       {/* <div className="text-center"> */}(
                       {propertyState[Number(params.propId)]?.fundAmount
-                        ? Math.round(
-                            Number(
-                              propertyState[Number(params.propId)]?.fundAmount,
-                            ) / 10000,
-                          )
+                        ? Number(
+                            propertyState[Number(params.propId)]?.fundAmount,
+                          ) / 10000
                         : 0}{" "}
                       DIAM)
                     </div>
@@ -205,11 +204,9 @@ const page = ({ params }: { params: { propId: string } }) => {
                     <br />
                     {/* <div className="text-center"> */}(
                     {propertyState[Number(params.propId)]?.fundsInvested
-                      ? Math.round(
-                          Number(
-                            propertyState[Number(params.propId)]?.fundsInvested,
-                          ) / 10000,
-                        )
+                      ? Number(
+                          propertyState[Number(params.propId)]?.fundsInvested,
+                        ) / 10000
                       : 0}{" "}
                     DIAM)
                   </div>
@@ -228,8 +225,37 @@ const page = ({ params }: { params: { propId: string } }) => {
                 </p>
               </div>
             </div>
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-6 mt-6">
+              <div className="bg-blue-600 p-6 rounded-xl">
+                <h3 className="text-xl font-bold mb-2">Price Per Token</h3>
+                <p className="text-4xl font-bold">
+                  <p className="text-4xl font-bold">
+                    <div className="text-center">
+                      ${perToken}
+                      {/* </div> */}
+                      <br />
+                      {/* <div className="text-center"> */}
+                      {/* {perToken ? Math.round(perToken / 10000) : 0} DIAM) */}
+                    </div>
+                  </p>
+                </p>
+              </div>
+              <div className="bg-blue-600 p-6 rounded-xl">
+                <h3 className="text-xl font-bold mb-2 text-center">
+                  Total Supply
+                </h3>
+                <p className="text-4xl font-bold">
+                  <div className="text-center">
+                    {propertyState[Number(params.propId)]?.tokens}
+                    {/* </div> */}
+                    {/* <div className="text-center"> */}
+                  </div>
+                </p>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col items-center">
+
+          {/* <div className="flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
               Location Preview
             </h2>
@@ -242,7 +268,7 @@ const page = ({ params }: { params: { propId: string } }) => {
                 className="mx-auto aspect-[2/1] overflow-hidden rounded-xl object-cover bg-slate-400"
               />
             </div>
-          </div>
+          </div> */}
           <div className="flex flex-col items-center">
             {" "}
             {/* {onClick ? ( */}
@@ -250,7 +276,7 @@ const page = ({ params }: { params: { propId: string } }) => {
               <DialogTrigger>
                 {" "}
                 <button
-                  className="h-14 w-36 px-8 py-2 rounded-xl bg-gradient-to-r from-blue-300 to-blue-700 text-white focus:ring-2 focus:ring-blue-400 hover:shadow-xl hover:w-40 hover:h-16 transition-all duration-500"
+                  className="h-14 w-36 mb-24 px-8 py-2 rounded-xl bg-gradient-to-r from-blue-300 to-blue-700 text-white focus:ring-2 focus:ring-blue-400 hover:shadow-xl hover:w-40 hover:h-16 transition-all duration-500"
                   // onClick={() => setOnClick(!onClick)}
                 >
                   Invest
@@ -261,8 +287,8 @@ const page = ({ params }: { params: { propId: string } }) => {
                   <DialogTitle>Enter Investment Amount</DialogTitle>
                   <DialogDescription>
                     You will get {convertToToken(Number(investAmount))}{" "}
-                    {propertyState[Number(params.propId)]?.tokenName}, for (
-                    {convertToDIAM(Number(investAmount))}) DIAM
+                    {propertyState[Number(params.propId)]?.tokenName}, for{" "}
+                    {convertToDIAM(Number(investAmount))} DIAM
                   </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">

@@ -19,7 +19,6 @@ import {
 } from "diamante-sdk-js";
 import Link from "next/link";
 import { useStore } from "../../store/store";
-import { transfer } from "../../utils/tx-functions";
 
 const server = new Horizon.Server("https://diamtestnet.diamcircle.io/");
 const Investments = () => {
@@ -43,16 +42,19 @@ const Investments = () => {
 
   const handleYield = async () => {
     const diam =
-      convertToDIAM(calculationResult) < 100
+      convertToDIAM(calculationResult) < 1
         ? convertToDIAM(calculationResult)
         : 98;
+
+    const formattedDiam = diam.toFixed(7).toString();
+
     const resTransferToOwner = await transfer(
       "GD4X6G3MXFNIXZPS4C4446BKAD77ABYXDKBLHR7QMLCOLKOS4J573JDW",
-      "",
+      "SBPCPNJRS4ITRSYDAYRCGS5CGTM3DARI6V2ZGBQCZVVM7MTQLIWJLMRJ",
       investor.publicKey,
       "",
       "",
-      String(diam),
+      "2",
     );
 
     const res = await mint(
@@ -60,7 +62,7 @@ const Investments = () => {
       "",
       investor.publicKey,
       propertyState[0]?.tokenName + "NFT",
-      0.0000001,
+      "0.0000001",
     );
 
     console.log("resTransferToOwner", resTransferToOwner);
@@ -71,7 +73,7 @@ const Investments = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <Card className="bg-primary text-primary-foreground">
             <CardHeader>
-              <CardTitle>Total Property Invested</CardTitle>
+              <CardTitle>Total Invested</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-4xl font-bold">
@@ -112,9 +114,11 @@ const Investments = () => {
                   <div className="text-sm font-medium text-muted-foreground">
                     Property 1
                   </div>
-                  <div className="text-lg font-bold">$100,000</div>
+                  <div className="text-lg font-bold">
+                    ${propertyState[0]?.fundsInvested}
+                  </div>
                   <div className="text-sm text-muted-foreground">
-                    Monthly Yield: $500
+                    Monthly Yield: ${calculationResult}
                   </div>
                 </div>
                 {/* <div className="grid gap-2">
@@ -248,6 +252,50 @@ function XIcon(props: any) {
       <path d="m6 6 12 12" />
     </svg>
   );
+}
+
+export async function transfer(
+  distributorPubKey: any,
+  distributorSecretKey: any,
+  receiverPubKey: any,
+  asset_name: any,
+  issuerPubKey: any,
+  amountToTransfer: any,
+) {
+  // dist -> owner
+  // issuer-> contract
+  // rece -> investor
+  const account = await server.loadAccount(distributorPubKey);
+  let asset;
+  if (asset_name) {
+    asset = new Asset(asset_name, issuerPubKey);
+  } else {
+    asset = Asset.native();
+  }
+
+  const tx = new TransactionBuilder(account, {
+    fee: BASE_FEE,
+    networkPassphrase: Networks.TESTNET,
+  })
+    .addOperation(
+      Operation.payment({
+        destination: receiverPubKey,
+        asset: asset,
+        amount: amountToTransfer,
+      }),
+    )
+    .setTimeout(0)
+    .build();
+
+  let result;
+  tx.sign(Keypair.fromSecret(distributorSecretKey));
+  result = await server.submitTransaction(tx);
+
+  if (result.successful) {
+    console.log("transfered");
+  }
+
+  return result;
 }
 
 export async function mint(

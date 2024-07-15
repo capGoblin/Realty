@@ -172,7 +172,7 @@ const Properties = () => {
       )} */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-16 mt-8 md:mt-12">
-        {propertyState.map((property, index) => (
+        {/* {propertyState.map((property, index) => (
           <Card key={index} className="p-1 rounded-lg">
             <CardHeader>
               <img
@@ -212,7 +212,43 @@ const Properties = () => {
               </div>
             </CardContent>
           </Card>
-        ))}
+        ))} */}
+        <Card className="rounded-lg">
+          <CardHeader>
+            <img
+              src="/img/digitized-miami-mansion.png"
+              width={400}
+              height={225}
+              alt="Property Image"
+              className="rounded-lg object-cover aspect-video"
+            />
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h3 className="text-lg font-semibold">5 Bed, 6 Bath Mansion</h3>
+                <Badge variant="secondary">Renovation</Badge>
+              </div>
+              <p className="text-muted-foreground">
+                Luxurious estate nestled in a prestigious suburban enclave,
+                featuring expansive grounds and panoramic views
+              </p>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <DollarSignIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">250000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <UsersIcon className="w-5 h-5 text-primary" />
+                  <span className="font-medium">1 Investor</span>
+                </div>
+              </div>
+              <Button size="lg" variant="outline" className="w-full">
+                View Details
+              </Button>{" "}
+            </div>
+          </CardContent>
+        </Card>
         <Card className="rounded-lg">
           <CardHeader>
             <img
@@ -226,20 +262,23 @@ const Properties = () => {
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
-                <Badge variant="secondary">Construction</Badge>
+                <h3 className="text-lg font-semibold">
+                  1 Bed, 1 Bath Apartment
+                </h3>
+                <Badge variant="secondary">Renovation</Badge>
               </div>
               <p className="text-muted-foreground">
-                New construction condo in a vibrant city neighborhood.
+                Cozy apartment located close to public transportation and
+                shopping centers.
               </p>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <DollarSignIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">250,000</span>
+                  <span className="font-medium">300,000</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <UsersIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">20 Investors</span>
+                  <span className="font-medium">12 Investors</span>
                 </div>
               </div>
               <Button size="lg" variant="outline" className="w-full">
@@ -261,16 +300,17 @@ const Properties = () => {
           <CardContent>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">2 Bed, 1 Bath Condo</h3>
+                <h3 className="text-lg font-semibold">4 Bed, 3 Bath Villa</h3>
                 <Badge variant="secondary">Construction</Badge>
               </div>
               <p className="text-muted-foreground">
-                New construction condo in a vibrant city neighborhood.
+                Luxurious villa with a private pool and stunning views of the
+                countryside.
               </p>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <DollarSignIcon className="w-5 h-5 text-primary" />
-                  <span className="font-medium">250,000</span>
+                  <span className="font-medium">2,000,0000</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <UsersIcon className="w-5 h-5 text-primary" />

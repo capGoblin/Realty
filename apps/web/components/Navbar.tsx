@@ -34,15 +34,15 @@ export const Navbar = () => {
       console.log({ res });
       address = res.message[0];
       if (
-        address === "GBMIHVONF4XAZMSJDUOMUFT6ZTUGRYQDK6TWGNSQ42WDFQ5SYPSXEBID"
+        address === "GB23V5BG7ILGKJUXXLXTAORRZEE7A2WJPLY26ACQGMSDXOWQCSC4IGRQ"
       ) {
         setOwner({ publicKey: address, secretKey: "" });
       } else {
         setInvestor({ publicKey: address, secretKey: "" });
       }
       setContract({
-        publicKey: "GB5S25ZMYGR2HOPWT7AQCBUR7YXM3PD2XLA7OLOC673BQ67KF2J6CB7D",
-        secretKey: "SB2KH3GLA4W5LH3K2CRZRDBCBGCRT7DISVDYEATD7H7MPCAV7EMTVAO4",
+        publicKey: "GCOXCQA6LT4QFAYKL5GF3VQJWCSNEOQZR2QC2SFVWFOLC4PXZEUD3AH7",
+        secretKey: "SBYTIRE52246KMHGSQBUUDUTLLB4SLKBOSQ24OXGRBPHWJ5JDGCEZ3SG",
       });
 
       setPubKey(address);
@@ -200,7 +200,10 @@ export const Navbar = () => {
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
           {pubKey ? (
-            <div className="bg-blue-600 py-2 px-4 text-white rounded-full transition duration-300">
+            <div
+              className="bg-blue-600 py-2 px-4 text-white rounded-full transition duration-300"
+              onClick={() => setPubKey("")}
+            >
               <span className="flex items-center">
                 <Blockies seed={pubKey} className="rounded-full h-8 w-8 mr-2" />
                 {`${pubKey?.slice(0, 6)}...${pubKey?.slice(-6)}`}{" "}
